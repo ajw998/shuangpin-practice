@@ -1,6 +1,21 @@
 import { splitSyllable } from './pinyin/split';
 import { normalizePinyin } from './pinyin/normalize';
-import type { ShuangpinScheme } from './schemes';
+import {
+  SHENG_KEYS,
+  YUN_KEYS,
+  ZERO_INITIAL_YUNS,
+  type ShuangpinScheme,
+  type ShengKey,
+  type YunKey,
+} from './schemes';
+import type { ZeroInitialYun } from './schemes/types';
+
+const isShengKey = (value: string): value is ShengKey =>
+  SHENG_KEYS.includes(value as ShengKey);
+const isYunKey = (value: string): value is YunKey =>
+  YUN_KEYS.includes(value as YunKey);
+const isZeroInitialYun = (value: string): value is ZeroInitialYun =>
+  ZERO_INITIAL_YUNS.includes(value as ZeroInitialYun);
 
 export function encodeSyllable(
   scheme: ShuangpinScheme,
@@ -10,12 +25,15 @@ export function encodeSyllable(
   if (!normalized) return null;
 
   const { sheng, yun } = splitSyllable(normalized);
-  const shengCode = sheng ? scheme.sheng[sheng] : '';
+  const shengCode =
+    sheng && isShengKey(sheng) ? scheme.sheng[sheng] : undefined;
   const zeroInitialOverride =
     !sheng && scheme.zeroInitialOverrides
-      ? scheme.zeroInitialOverrides[yun]
+      ? isZeroInitialYun(yun)
+        ? scheme.zeroInitialOverrides[yun]
+        : undefined
       : undefined;
-  const yunCode = scheme.yun[yun];
+  const yunCode = isYunKey(yun) ? scheme.yun[yun] : undefined;
 
   const finalCode = zeroInitialOverride ?? yunCode;
 

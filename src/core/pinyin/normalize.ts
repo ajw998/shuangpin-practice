@@ -1,4 +1,7 @@
 const UMLAUT_PATTERN = /[üǖǘǚǜ]/gi;
+const SYLLABLE_ALIASES: Record<string, string> = {
+  ng: 'en',
+};
 
 export function normalizePinyin(input: string): string {
   if (!input) return '';
@@ -7,5 +10,5 @@ export function normalizePinyin(input: string): string {
     .toLowerCase()
     .replace(/\s+/g, '')
     .replace(UMLAUT_PATTERN, 'v');
-  return normalized === 'ng' ? 'en' : normalized;
+  return SYLLABLE_ALIASES[normalized] ?? normalized;
 }

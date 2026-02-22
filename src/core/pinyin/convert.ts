@@ -12,7 +12,7 @@ export function convert(text: string): PinyinToken[] {
   const syllables = pinyin(text, {
     toneType: 'none',
     type: 'array',
-    nonZh: 'ignore',
+    nonZh: 'consecutive',
     v: true,
   }) as string[];
 

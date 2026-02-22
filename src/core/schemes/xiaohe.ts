@@ -62,5 +62,6 @@ export const xiaoheBase: Omit<ShuangpinScheme, 'zeroInitialOverrides'> = {
     uo: 'o',
     v: 'v',
     ve: 't',
+    vn: 'y',
   },
 };

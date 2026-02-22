@@ -15,7 +15,7 @@ export const useAppStore = create<AppState>((set) => ({
   showSyllable: true,
   showExpectedKeys: true,
   setScheme: (schemeId) =>
-    set((_) => ({
+    set(() => ({
       schemeId,
     })),
   toggleSyllable: () =>

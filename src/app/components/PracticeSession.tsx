@@ -27,7 +27,6 @@ export default function PracticeSession() {
 
   useEffect(() => {
     inputRef.current?.focus();
-    setIsFocused(true);
   }, []);
 
   const tokens = useMemo(() => convert(prompt), [prompt]);
